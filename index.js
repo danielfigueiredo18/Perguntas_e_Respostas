@@ -1,18 +1,15 @@
-const express = require("express")
-const app = express()
+const customExpress = require('./config/customExpress')
+const connection = require("./database/dataBase")
+const Question = require("./models/Question")
 
-// Define o express para usar o EJS como View Engine
-app.set('view engine', 'ejs')
-app.use(express.static('assets'))
+const app = customExpress()
 
-app.get("/",(req,res)=>{
-    res.render("index")
+//DataBase
+connection.authenticate().then(()=>{
+    console.log("Connected")
+}).catch((error)=>{
+    console.log(error)
 })
-
-app.get("/perguntar",(req,res)=>{
-    res.render("perguntar")
-})
-
 
 app.listen(8080,()=>{
     console.log("Servidor Iniciado!!")
